@@ -5,7 +5,7 @@ public class Pokedeck implements Serializable {
 	private static final long serialVersionUID = 1L;
 	ArrayList<Card> deck = new ArrayList<Card>();
 	
-	public Pokedeck() {
+	public Pokedeck(){
 		this.deck = new ArrayList<Card>();
 	}
 	
@@ -46,9 +46,5 @@ public class Pokedeck implements Serializable {
 	public int getIndex(Card cardIndex) {
 		return deck.indexOf(cardIndex);
 	}
-	
-	public String toString() {
-		return "Pockedeck [deck=" + deck + "]";
-	}	
 	
 }
