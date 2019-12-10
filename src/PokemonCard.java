@@ -1,5 +1,8 @@
 
 public class PokemonCard extends Card{
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	private int healthPoints;
 	

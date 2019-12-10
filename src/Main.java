@@ -5,13 +5,11 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+
 import javax.swing.*;
 
 public class Main implements Serializable {
@@ -19,8 +17,7 @@ public class Main implements Serializable {
 	private static final String FILE_NAME = "deck.ser";
 	
 	protected static int index;
-	protected static Pokedeck Deck;
-	
+	protected static Pokedeck Deck = new Pokedeck();
 	protected static final JFrame window = new JFrame("My Pockedeck");
 	protected static JPanel pnCard = new JPanel(new BorderLayout());
     protected static JLabel n;
@@ -32,9 +29,13 @@ public class Main implements Serializable {
     protected static JList<String> cardList;
     protected static JScrollPane displayCardList;
     protected static ArrayList<String> listCard;
+	//private static ObjectOutputStream oos;
     
-	public static void main(String[ ] args) throws IOException {
-		Deck = new Pokedeck();
+	public static void main(String[ ] args) {
+		Deck.addCard(new PokemonCard("test","test","15"));
+		Deck.addCard(new PokemonCard("test2","test2","15"));
+		Deck.addCard(new PokemonCard("test3","test3","15"));
+	    
 		try {
 			FileOutputStream fs = new FileOutputStream(FILE_NAME);
 			ObjectOutputStream os = new ObjectOutputStream(fs);
@@ -43,11 +44,6 @@ public class Main implements Serializable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	      
-		Deck.addCard(new PokemonCard("Pikachu","Attaque tonaire","15"));
-		Deck.addCard(new PokemonCard("Dipluf","Attaque eau","20"));
-		Deck.addCard(new TrainerCard("Soins","+15HP"));
-	
 		
         window.setBackground(Color.GREEN);
 		window.setSize(500, 500);
@@ -67,23 +63,9 @@ public class Main implements Serializable {
 		removeCardButton = new JButton("Remove");
 		pnMenu.add(removeCardButton);
 		removeCardButton.addActionListener(new RemoveCard());
-		JButton saveCardButton = new JButton("Save");
-		pnMenu.add(saveCardButton);
-		saveCardButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-      	      try {
-    	          FileInputStream fis = new FileInputStream(FILE_NAME);
-    	          ObjectInputStream ois = new ObjectInputStream(fis);
-    	          Deck = (Pokedeck) ois.readObject();
-    	          ois.close();
-    	       } catch (Exception e) { 
-    	          e.printStackTrace(); 
-    	       }
-            }
-		});
 
-
-		//MY CARD
+		//Card details
+		System.out.println("refresh");
 		n = new JLabel(Deck.getCards().get(index).getName());
 		h = new JLabel(Deck.getCards().get(index).getHealthPoints());
         n.setPreferredSize(new Dimension(130, 20));
@@ -101,7 +83,7 @@ public class Main implements Serializable {
             listCard.add(selectCard.getName());
         }
         
-        //SEARCH CARD
+        //Search Card
         JPanel pnsearch = new JPanel(new FlowLayout());
         JLabel searchName = new JLabel("Search by type and name ");
         JTextField searchByType = new JTextField();
@@ -136,7 +118,7 @@ public class Main implements Serializable {
             }
         });
         
-        //SWITCH CARD 
+        //Switch Card 
 		JPanel pnSwitch = new JPanel(new GridLayout(1, 2));
 		JButton prd = new JButton("  < previous  ");
 		JButton nxt = new JButton("     Next >   ");
@@ -147,8 +129,7 @@ public class Main implements Serializable {
 		
 		cardList = new JList<>(listCard.toArray(new String[0]));
 		displayCardList = new JScrollPane(cardList);
-		displayCardList.setPreferredSize(new Dimension(150, 100));
-
+        
 		window.setLayout(new FlowLayout());
 		window.add(title);
 		window.add(pnsearch);
@@ -158,6 +139,7 @@ public class Main implements Serializable {
 		window.add(pnMenu);
 		window.setResizable(false);
 		window.setVisible(true);
+		
 	}
 	
 
@@ -169,9 +151,8 @@ public class Main implements Serializable {
 			h.setText(Deck.getCard(index).getHealthPoints());
 			des.setText(Deck.getCard(index).getDescription());
 		}
-	  }
 	}
-	
+	}
 	static class PrescCard implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if(index > 0) {
@@ -245,7 +226,7 @@ public class Main implements Serializable {
 	 }
 	}
 	
-	static class EditCard implements ActionListener {
+	public static class EditCard implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             JFrame windowUpdateCard = new JFrame("Update Card");
             windowUpdateCard.setSize(450, 200);
@@ -307,6 +288,7 @@ public class Main implements Serializable {
             windowUpdateCard.setVisible(true);
         }
     }
+
 	
 	static class RemoveCard implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
