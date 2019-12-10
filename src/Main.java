@@ -5,10 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,7 +14,7 @@ import javax.swing.*;
 
 public class Main implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static final String FILE_NAME = "pokedeck.ser";
+	private static final String FILE_NAME = "deck.ser";
 	
 	protected static int index;
 	protected static Pokedeck Deck = new Pokedeck();
@@ -29,9 +26,9 @@ public class Main implements Serializable {
     protected static JButton addCardButton;
     protected static JButton updateCardButton;
     protected static JButton removeCardButton;
-    //protected static JList<String> cardList;
-    //protected static JScrollPane displayCardList;
-    //protected static ArrayList<String> listCard;
+    protected static JList<String> cardList;
+    protected static JScrollPane displayCardList;
+    protected static ArrayList<String> listCard;
 	//private static ObjectOutputStream oos;
     
 	public static void main(String[ ] args) {
@@ -80,11 +77,11 @@ public class Main implements Serializable {
 		pnCard.add(des, BorderLayout.SOUTH);
         pnCard.setBackground(Color.YELLOW);
         
-        /*listCard = new ArrayList<String>();
+        listCard = new ArrayList<String>();
         for (int i = 0; i < Deck.getCards().size(); i++) {
             Card selectCard = Deck.getCards().get(i);
             listCard.add(selectCard.getName());
-        }*/
+        }
         
         //Search Card
         JPanel pnsearch = new JPanel(new FlowLayout());
@@ -130,14 +127,14 @@ public class Main implements Serializable {
 		pnSwitch.add(prd,BorderLayout.WEST);
 		pnSwitch.add(nxt, BorderLayout.EAST);
 		
-		//cardList = new JList<>(listCard.toArray(new String[0]));
-		//displayCardList = new JScrollPane(cardList);
+		cardList = new JList<>(listCard.toArray(new String[0]));
+		displayCardList = new JScrollPane(cardList);
         
 		window.setLayout(new FlowLayout());
 		window.add(title);
 		window.add(pnsearch);
 		window.add(pnCard);
-		//window.add(displayCardList);
+		window.add(displayCardList);
 		window.add(pnSwitch);
 		window.add(pnMenu);
 		window.setResizable(false);
@@ -221,15 +218,7 @@ public class Main implements Serializable {
 	                    String typeText = typeTextField.getText();
 	                    String descriptionText = descriptionTextField.getText();
 	                    Deck.addCard(new Card(nameText, typeText, descriptionText, healthPointsText));
-	                    System.out.println("--------Deck size :"+Deck.getCards().size());
-	                    System.out.println("Name :"+nameText);
-	                    System.out.println("Health Points :"+healthPointsText);
-	                    System.out.println("Type :"+typeText);
-	                    System.out.println("Description :"+descriptionText);
 	                    windowNewCard.setVisible(false);
-	                   // listCard.add(nameText);
-	                   // cardList = new JList<>(listCard.toArray(new String[0]));
-	                   // cardList = new JList<String>(listCard.toArray(new String[0]));
 	                    window.revalidate();
 	                    window.repaint();
 	          }

@@ -1,5 +1,4 @@
 import java.io.Serializable;
-import java.util.UUID;
 
 public class Card implements Serializable {
 	/**
@@ -9,7 +8,6 @@ public class Card implements Serializable {
 	protected String name;
 	protected String description;
 	protected String healthPoints;
-	protected static String types[] = { "Pokemon", "Energy", "Trainer"};
 	protected String type;
 	
 	public Card(String type, String name,String description, String healthPoints){
@@ -44,7 +42,8 @@ public class Card implements Serializable {
 	}
 	
 	public String getHealthPoints() {
-		return null;};
+		return null;
+	};
 
 	
 }
